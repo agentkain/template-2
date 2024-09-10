@@ -1,48 +1,96 @@
+import React from 'react';
 import Link from "next/link";
+import dynamic from 'next/dynamic';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+// Dynamically import client components
+const VoiceNoteRecorder = dynamic(() => import('@/app/components/VoiceNoteRecorder'), { ssr: false });
+const NotesList = dynamic(() => import('@/app/components/NotesList'), { ssr: false });
+
+function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="4" x2="20" y1="12" y2="12" />
+      <line x1="4" x2="20" y1="6" y2="6" />
+      <line x1="4" x2="20" y1="18" y2="18" />
+    </svg>
+  )
+}
+
+function MoonIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+    </svg>
+  )
+}
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8">
-      <div>
-        <h2 className="text-2xl font-semibold text-center border p-4 font-mono rounded-md">
-          Get started by choosing a template path from the /paths/ folder.
-        </h2>
-      </div>
-      <div>
-        <h1 className="text-6xl font-bold text-center">Make anything you imagine 🪄</h1>
-        <h2 className="text-2xl text-center font-light text-gray-500 pt-4">
-          This whole page will be replaced when you run your template path.
-        </h2>
-      </div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">AI Chat App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            An intelligent conversational app powered by AI models, featuring real-time responses
-            and seamless integration with Next.js and various AI providers.
-          </p>
+    <div className="flex min-h-screen flex-col bg-gradient-to-b from-[#f0f4ff] to-[#e6f0ff]">
+      <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+          <Link href="#" className="flex items-center gap-2">
+            <MoonIcon className="h-6 w-6 text-primary" />
+            <span className="text-lg font-bold">Lunar Journal</span>
+          </Link>
+          <nav className="hidden gap-4 md:flex">
+            <Link href="#" className="text-sm font-medium hover:text-primary transition-colors">
+              Voice Notes
+            </Link>
+          </nav>
+          <Button className="md:hidden">
+            <MenuIcon className="h-6 w-6" />
+            <span className="sr-only">Toggle menu</span>
+          </Button>
         </div>
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">AI Image Generation App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            Create images from text prompts using AI, powered by the Replicate API and Next.js.
-          </p>
-        </div>
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">Social Media App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            A feature-rich social platform with user profiles, posts, and interactions using
-            Firebase and Next.js.
-          </p>
-        </div>
-        <div className="border rounded-lg p-6 hover:bg-gray-100 transition-colors">
-          <h3 className="text-xl font-semibold">Voice Notes App</h3>
-          <p className="mt-2 text-sm text-gray-600">
-            A voice-based note-taking app with real-time transcription using Deepgram API, 
-            Firebase integration for storage, and a clean, simple interface built with Next.js.
-          </p>
-        </div>
-      </div>
-    </main>
+      </header>
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <section className="mb-12">
+          <h1 className="text-3xl font-bold mb-6">Your Voice Notes</h1>
+          <VoiceNoteRecorder />
+        </section>
+        <section>
+          <h2 className="text-2xl font-bold mb-4">Your Journal Entries</h2>
+          <NotesList />
+        </section>
+      </main>
+      {/* Remove or comment out the fixed bottom section if you don't need it anymore */}
+      {/* <div className="fixed inset-x-0 bottom-0 flex items-center justify-center z-20 p-4">
+        <Card>
+          <CardContent className="space-y-4 text-center sm:rounded-lg">
+            <div className="flex flex-col items-center justify-center">
+              <h3 className="text-lg font-semibold">How are you feeling today?</h3>
+              <div className="flex justify-center mt-2">
+                <VoiceNoteRecorder />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div> */}
+    </div>
   );
 }

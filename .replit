@@ -11,3 +11,7 @@ build = ["sh", "-c", "npm run build"]
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[auth]
+pageEnabled = false
+buttonEnabled = true
